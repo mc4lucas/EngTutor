@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>EngTutor</title>
+        <Script src="https://www.gstatic.com/firebasejs/8.4.0/firebase-app.js"></Script>
+        <Script src="https://www.gstatic.com/firebasejs/8.4.0/firebase-database.js"></Script>
+        <Script src="https://www.gstatic.com/firebasejs/8.4.0/firebase-auth.js"></Script>
+    </head>
+
+
+    <body>
+        <div class="mainPage">
+            <div class="login"> <!--Div for the login stuff-->
+                <h1>Welcome Back!</h1>
+                <input class="textbox" type="text" id="log_email" placeholder="Email"></input>
+                <input class="textbox" type="text" id="log_pass" placeholder="Password"></input>
+                <input class="btn" type="button" id="login" value="Log-In"></input>
+            </div>
+    
+            <div id="reg_div" class="reg">
+                <input class="textbox" type="text" id="reg_email" placeholder="Email"></input>
+                <input class="textbox" type="text" id="reg_user" placeholder="Username"></input>
+                <input class="textbox" type="text" id="reg_pass" placeholder="Password"></input>
+                <p class="alertBad" id="alert"></p>
+                <input class="btn" type="button" id="createAccount" value="Create Account"></input>
+            </div>
+        </div>
+
+        <div id="switchPanel" class="switchInit">
+            <h1 id="info">Don't have an account yet?<br />No problem!</h1>
+            <input class="btnSmall" type="button" id="switch" value="Register Now!"></input>
+        </div>
+
+        <!--Additional Dependencies-->
+        <script type="text/javascript" src="/database.js"></script>
+        <link rel="stylesheet" href="/index.css"></script>
+    </body>
+</html>

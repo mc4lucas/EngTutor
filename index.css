@@ -1,0 +1,124 @@
+
+body{
+    display: flex;
+    flex-direction: row; 
+    align-items: center; /*For the height axis*/
+    justify-content: center; /*For the width axis*/
+
+    background-color: grey;
+}
+
+.mainPage{
+    display: flex;
+    flex-direction: row;
+
+
+    width: 80%;
+    height: 80%;
+}
+
+.login{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+
+    width: 50%;
+
+    background-color: white;
+    border-radius: 5% 0% 0% 5%;
+}
+
+.reg{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    text-align: center;
+
+    width: 50%;
+
+    background-color: white;
+    border-radius: 0% 5% 5% 0%;
+}
+
+.textbox{
+    width: 80%;
+    height: 6%;
+
+    align-self: center;
+}
+
+.btn{
+    align-self: center;
+
+
+    width: 40%;
+    height: 12%;
+    border-radius: 2%;
+    border-width: 5px;
+    border-color: red;
+}
+
+.SwitchInit{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    text-align: center;
+
+    width: 40%;
+    height: 79%;
+
+    border-radius: 30% 5% 5% 30%;
+
+    background-color: purple;
+    transform: translateX(50%);
+}
+.switchOn{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    text-align: center;
+
+    width: 40%;
+    height: 79%;
+
+    border-radius: 30% 5% 5% 30%;
+
+    background-color: purple;
+    transform: translateX(50%);
+    transition-duration: 1.5s;
+}
+
+.switchOff{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    text-align: center;
+
+    width: 40%;
+    height: 79%;
+
+    border-radius: 5% 30% 30% 5%;
+
+    background-color: purple;
+    transform: translateX(-50%);
+    transition-duration: 1.5s;
+}
+
+.btnSmall{
+    width: 20%;
+    height: 6%;
+}
+
+.alertBad{
+    color: red;
+}
+.alertGood{
+    color: green;
+}
