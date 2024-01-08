@@ -26,13 +26,16 @@ const firebaseConfig = {
 
 
 //Define callbacks
+var user; //The current user
+
 
 //#region Animation
 document.getElementById("switch").addEventListener("click", animateSwitch);
 div = document.getElementById("switchPanel");
 btn = document.getElementById("switch");
 display = document.getElementById("info");
-errorMSG = document.getElementById("alert");
+errorMSG = document.getElementById("alert"); //The text on the register page that displays errors
+errorMSGlog = document.getElementById("alertLog"); //The text on the login page that displays errors
 
 
 var toggled = true; //Default boolean to check the current position of the panel (default is on sign in page)
@@ -62,6 +65,11 @@ function setRegister(){
 
 //#region Account creation
 document.getElementById("createAccount").addEventListener("click", addUser); //Assigning a function to the register button
+document.getElementById("login").addEventListener("click", login); //Assigning a function to the login button
+
+
+
+
 const reg_email = document.getElementById("reg_email"); //Variable for the register "Email" field
 const reg_pass = document.getElementById("reg_pass"); //Variable for the register "Password" field
 const reg_user = document.getElementById("reg_user"); //Variable for the register "User" field
@@ -71,13 +79,15 @@ const log_pass = document.getElementById("log_pass"); //Variable for log in pass
 
 
 //Auth functions
-function alertGood(){ //Make alert text green
-    errorMSG.classList.remove("alertBad");
-    errorMSG.classList.add("alertGood");
+function alertGood(obj){ //Make alert text green
+    obj.classList.remove("alertBad");
+    obj.classList.add("alertGood");
 }
-function alertBad(){ //Make text alert red
+function alertBad(val, error){ //Make text alert red
     errorMSG.classList.remove("alertGood");
     errorMSG.classList.add("alertBad");
+
+    val.innerHTML = error;
 }
 
 
@@ -113,24 +123,109 @@ function addUser(){
         reg_pass.value = null;
         reg_user.value = null;
 
-        alertGood();
-        errorMSG.innerHTML = "Account Successfully Created!"
+        alertGood(errorMSG);
+        errorMSG.innerHTML = "A verification email has been sent!"
+
+        verifyEmail();
     })
     .catch((error) => {
         var errorCode = error.code;
         var errorMessage = error.message;
         console.log(error); //Debug
-        alertBad();
-        errorMSG.innerHTML = error;
+        alertBad(errorMSG,error);
     });
 }
 
-function login(){
+//Other  functions
+function verifyEmail(){
+    firebase.auth().currentUser.sendEmailVerification()
+    .then(() => {
+        console.log("Verification email has been sent!"); 
+    });
 
 }
+
+
+
+
 //#endregion
 
+//#region Account Login...
 
+const dashName = document.getElementById("user");
+document.getElementById("logout").addEventListener("click", logOut); //Adding function for btn press
+document.getElementById("terminate").addEventListener("click", deleteAccount); //Adding function for btn press
 
+function login(){
+    firebase.auth().signInWithEmailAndPassword(log_email.value, log_pass.value)
+    .then((userCredential) => {
+        //If the account exists...
+
+        user = userCredential.user; //Get the user from firebase
+
+        if(user.emailVerified){ //If the email has been verified for the account
+            //temp
+            alertGood(errorMSGlog);
+            errorMSGlog.innerHTML = (user.displayName + " is now logged in!");
+
+            //Reset the text box's
+            log_email.value = null;
+            log_pass.value = null;
+
+            //Redirect to the user dashboard
+            changePage();
+
+            dashName.innerHTML = user.displayName;
+            errorMSGlog.innerHTML = null; //reset msg txt
+        }
+        else{
+            alertBad(errorMSGlog, "The email for this account is not verified yet!");
+        }
+        
+    })
+    .catch((error) => {
+        //If the user does not exist
+        
+        alertBad(errorMSGlog, error);
+
+    })
+}
+
+function logOut(){
+    firebase.auth().signOut().then(() => {
+        changePage(); //Sign out the user and return to login page
+      }).catch((error) => {
+        console.log(error); //There was an issue
+      });
+      
+}
+
+function deleteAccount(){
+    user.delete().then(() => {
+        changePage(); //Delete the user and return to login page
+      }).catch((error) => {
+        console.log(error); //There was an issue
+      });
+}
+
+//#endregion
+homePage = document.getElementById("loginFrame");
+dashboard = document.getElementById("dashboard");
+
+var loggedIn = false;
+
+function changePage(){ //Toggles visibility of login page vs dashboard
+    if(loggedIn){
+        homePage.removeAttribute("hidden");
+        dashboard.setAttribute("hidden", "hidden");
+
+        loggedIn = false;
+    }else{
+        dashboard.removeAttribute("hidden");
+        homePage.setAttribute("hidden", "hidden");
+
+        loggedIn = true;
+    }
+}
 
 //Database functions
